@@ -3,7 +3,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <!-- mini statistic start -->
-        <v-flex lg3 sm6 xs12>
+        <!-- <v-flex lg3 sm6 xs12>
           <mini-statistic
             icon="fa fa-facebook"
             title="100+"
@@ -11,7 +11,7 @@
             color="indigo"
           >
           </mini-statistic>
-        </v-flex>
+        </v-flex> -->
         <v-flex lg3 sm6 xs12>
           <mini-statistic
             icon="fa fa-google"
@@ -217,7 +217,7 @@
   import LinearStatistic from '@/components/widgets/statistic/LinearStatistic';
 
   export default {
-    layout: 'dashboard',
+    layout: 'apotek/dashboard',
     components: {
       VWidget,
       MiniStatistic,
