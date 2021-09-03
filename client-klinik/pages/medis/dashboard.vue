@@ -217,7 +217,7 @@
   import LinearStatistic from '@/components/widgets/statistic/LinearStatistic';
 
   export default {
-    layout: 'dashboard',
+    layout: 'medis/dashboard',
     components: {
       VWidget,
       MiniStatistic,

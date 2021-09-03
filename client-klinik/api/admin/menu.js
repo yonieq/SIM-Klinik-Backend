@@ -1,17 +1,61 @@
 const Menu = [
-    {header: 'Kasir'},
+    {header: 'Admin'},
     {
       title: 'Dashboard',
-      group: 'kasir',
+      group: 'admin',
       icon: 'dashboard',
       name: 'Dashboard',
       href: '/apotek/dashboard'
     },
+    {header: 'Data Medis'},
     {
-      title: 'Pembayaran',
-      group: 'kasir',
-      icon: 'request_quote',
+      title: 'Rekam Medis',
+      group: 'medis',
       name: '',
+      icon: 'fa fa-heartbeat',
+      href: '/apotek/dashboard'
+    },
+    {
+      title: 'History Rekam Medis',
+      group: 'medis',
+      name: '',
+      icon: 'fa fa-book',
+      href: '/apotek/dashboard'
+    },
+    {
+      title: 'Report',
+      group: 'medis',
+      name: '',
+      icon: 'summarize',
+      href: '/apotek/dashboard'
+    },
+    {
+      title: 'Report Keuangan',
+      group: 'medis',
+      name: '',
+      icon: 'request_quote',
+      href: '/apotek/dashboard'
+    },
+    {header: 'Data Utama'},
+    {
+      title: 'Data Pasien',
+      group: 'data',
+      name: '',
+      icon: 'people_alt',
+      href: '/apotek/dashboard'
+    },
+    {
+      title: 'Data Obat',
+      group: 'data',
+      name: '',
+      icon: 'medical_services',
+      href: '/apotek/dashboard'
+    },
+    {
+      title: 'Data Petugas',
+      group: 'data',
+      name: '',
+      icon: 'person_pin',
       href: '/apotek/dashboard'
     },
     // {

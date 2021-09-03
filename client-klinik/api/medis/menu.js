@@ -8,9 +8,9 @@ const Menu = [
       href: '/apotek/dashboard'
     },
     {
-      title: 'Pembayaran',
+      title: 'Rekam Medis',
       group: 'kasir',
-      icon: 'request_quote',
+      icon: 'fa fa-heartbeat',
       name: '',
       href: '/apotek/dashboard'
     },
