@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import AppDrawer from '@/components/kasir/AppDrawer'
+  import AppDrawer from '@/components/pendaftaran/AppDrawer'
   import AppToolbar from '@/components/AppToolbar'
   import AppFab from '@/components/AppFab'
   import PageHeader from '@/components/PageHeader'

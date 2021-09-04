@@ -1,24 +1,24 @@
 const Menu = [
-    {header: 'Apotek'},
+    {header: 'Pendaftaran'},
     {
       title: 'Dashboard',
-      group: 'apotek',
+      group: 'pendaftaran',
       icon: 'dashboard',
       name: 'Dashboard',
       href: '/apotek/dashboard'
     },
     {
-      title: 'Data Obat',
-      group: 'data',
+      title: 'Rekam Medis',
+      group: 'pendaftaran',
       name: '',
-      icon: 'medical_services',
+      icon: 'fa fa-heartbeat',
       href: '/apotek/dashboard'
     },
     {
-      title: 'Rekam Medis',
-      group: 'apotek',
+      title: 'Data Pasien',
+      group: 'pendaftaran',
       name: '',
-      icon: 'fa fa-heartbeat',
+      icon: 'people_alt',
       href: '/apotek/dashboard'
     },
     // {
