@@ -18,7 +18,9 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <a href="/">
                 <v-btn block color="warning">Kembali</v-btn>
+                </a>
                 <v-spacer></v-spacer>
                 <v-btn block color="primary" @click="login" :loading="loading">Masuk</v-btn>
               </v-card-actions>
