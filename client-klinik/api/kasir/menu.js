@@ -1,18 +1,33 @@
 const Menu = [
-    {header: 'Kasir'},
+    {header: 'Pembayaran'},
     {
       title: 'Dashboard',
-      group: 'kasir',
+      group: 'dashboard',
       icon: 'dashboard',
       name: 'Dashboard',
-      href: '/apotek/dashboard'
+      href: '/kasir/dashboard'
     },
     {
       title: 'Pembayaran',
-      group: 'kasir',
+      group: 'pembayaran',
       icon: 'request_quote',
-      name: '',
-      href: '/apotek/dashboard'
+      name: 'Pembayaran',
+      href: '/kasir/pembayaran'
+    },
+    {header: 'Keuangan Kasir'},
+    {
+      title: 'Dashboard',
+      group: 'dashboard',
+      icon: 'dashboard',
+      name: 'Dashboard',
+      href: '/kasir/keuangan'
+    },
+    {
+      title: 'Report',
+      group: 'report',
+      icon: 'request_quote',
+      name: 'Report',
+      href: '/kasir/report'
     },
     // {
     //   title: 'Widgets',

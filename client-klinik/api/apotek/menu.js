@@ -2,25 +2,54 @@ const Menu = [
     {header: 'Apotek'},
     {
       title: 'Dashboard',
-      group: 'apotek',
+      group: 'dashboard',
       icon: 'dashboard',
       name: 'Dashboard',
       href: '/apotek/dashboard'
     },
     {
-      title: 'Data Obat',
-      group: 'data',
-      name: '',
-      icon: 'medical_services',
-      href: '/apotek/dashboard'
+      title: 'Permintaan Obat',
+      group: 'permintaan',
+      name: 'Permintaan Obat',
+      icon: 'room_preferences',
+      href: '/apotek/permintaan'
+    },
+    {header: 'Kepala Apotek'},
+    {
+      title: 'Dashboard',
+      group: 'dashboard',
+      icon: 'dashboard',
+      name: 'Dashboard',
+      href: '/apotek/inventori'
     },
     {
-      title: 'Rekam Medis',
-      group: 'apotek',
-      name: '',
-      icon: 'fa fa-heartbeat',
-      href: '/apotek/dashboard'
+      title: 'Data Obat',
+      group: 'data obat',
+      icon: 'medical_services',
+      name: 'Data Obat',
+      href: '/apotek/obat'
     },
+    {
+      title: 'Report',
+      group: 'report',
+      icon: 'fact_check',
+      name: 'Report',
+      href: '/apotek/report'
+    },
+    // {
+    //   title: 'Data Obat',
+    //   group: 'data',
+    //   name: '',
+    //   icon: 'medical_services',
+    //   href: '/apotek/dashboard'
+    // },
+    // {
+    //   title: 'Rekam Medis',
+    //   group: 'apotek',
+    //   name: '',
+    //   icon: 'fa fa-heartbeat',
+    //   href: '/apotek/dashboard'
+    // },
     // {
     //   title: 'Widgets',
     //   group: 'widgets',

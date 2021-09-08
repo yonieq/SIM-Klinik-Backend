@@ -2,62 +2,89 @@ const Menu = [
     {header: 'Admin'},
     {
       title: 'Dashboard',
-      group: 'admin',
+      group: 'dashboard',
       icon: 'dashboard',
       name: 'Dashboard',
-      href: '/apotek/dashboard'
+      href: '/admin/dashboard'
     },
-    {header: 'Data Medis'},
+    {header: 'Kelola Data'},
     {
-      title: 'Rekam Medis',
-      group: 'medis',
-      name: '',
-      icon: 'fa fa-heartbeat',
-      href: '/apotek/dashboard'
-    },
-    {
-      title: 'History Rekam Medis',
-      group: 'medis',
-      name: '',
-      icon: 'fa fa-book',
-      href: '/apotek/dashboard'
+      title: 'Data Ruangan',
+      group: 'ruangan',
+      name: 'Data Ruangan',
+      icon: 'room_preferences',
+      href: '/admin/ruangan'
     },
     {
-      title: 'Report',
-      group: 'medis',
-      name: '',
-      icon: 'summarize',
-      href: '/apotek/dashboard'
-    },
-    {
-      title: 'Report Keuangan',
-      group: 'medis',
-      name: '',
-      icon: 'request_quote',
-      href: '/apotek/dashboard'
-    },
-    {header: 'Data Utama'},
-    {
-      title: 'Data Pasien',
-      group: 'data',
-      name: '',
-      icon: 'people_alt',
-      href: '/apotek/dashboard'
-    },
-    {
-      title: 'Data Obat',
-      group: 'data',
-      name: '',
-      icon: 'medical_services',
-      href: '/apotek/dashboard'
-    },
-    {
-      title: 'Data Petugas',
-      group: 'data',
-      name: '',
+      title: 'Data Karyawan',
+      group: 'karyawan',
+      name: 'Data Karyawan',
       icon: 'person_pin',
-      href: '/apotek/dashboard'
+      href: '/admin/karyawan'
     },
+    {
+      title: 'Data Dokter',
+      group: 'dokter',
+      name: 'Data Dokter',
+      icon: 'person_pin',
+      href: '/admin/dokter'
+    },
+    {header: 'Report Data'},
+    {
+      title: 'Medis',
+      group: 'medis',
+      name: 'Medis',
+      icon: 'fa fa-heartbeat',
+      items: [
+            {name: 'Report Rekam Medis', title: 'Report Rekam Medis', href: '/admin/rekam_medis'},
+            {name: 'Data Pasien', title: 'Data Pasien', href: '/admin/data_pasien'},
+          ]
+    },
+    {
+      title: 'Absensi',
+      group: 'absen',
+      name: 'Absensi',
+      icon: 'event_note',
+      href: '/admin/absensi'
+    },
+    {
+      title: 'Apotek',
+      group: 'apotek',
+      name: 'Apotek',
+      icon: 'medical_services',
+      items: [
+        {name: 'Stok Obat', title: 'Stok Obat', href: '/admin/inventori'},
+        {name: 'Report Pelayanan', title: 'Report Pelayanan', href: '/admin/pelayanan_apotek'},
+      ]
+    },
+    {
+      title: 'Pendapatan',
+      group: 'pendapatan',
+      name: 'Pendapatan',
+      icon: 'request_quote',
+      href: '/admin/pendapatan'
+    },
+    // {
+    //   title: 'Data Pasien',
+    //   group: 'data',
+    //   name: '',
+    //   icon: 'people_alt',
+    //   href: '/apotek/dashboard'
+    // },
+    // {
+    //   title: 'Data Obat',
+    //   group: 'data',
+    //   name: '',
+    //   icon: 'medical_services',
+    //   href: '/apotek/dashboard'
+    // },
+    // {
+    //   title: 'Data Petugas',
+    //   group: 'data',
+    //   name: '',
+    //   icon: 'person_pin',
+    //   href: '/apotek/dashboard'
+    // },
     // {
     //   title: 'Widgets',
     //   group: 'widgets',
