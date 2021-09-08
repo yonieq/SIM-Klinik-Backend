@@ -5,21 +5,21 @@ const Menu = [
       group: 'pendaftaran',
       icon: 'dashboard',
       name: 'Dashboard',
-      href: '/apotek/dashboard'
+      href: '/pendaftaran/dashboard'
     },
     {
-      title: 'Rekam Medis',
-      group: 'pendaftaran',
-      name: '',
-      icon: 'fa fa-heartbeat',
-      href: '/apotek/dashboard'
-    },
-    {
-      title: 'Data Pasien',
-      group: 'pendaftaran',
-      name: '',
+      title: 'Daftar Pasien',
+      group: 'daftar_pasien',
+      name: 'daftar_pasien',
       icon: 'people_alt',
-      href: '/apotek/dashboard'
+      href: '/pendaftaran/daftar_pasien'
+    },
+    {
+      title: 'Daftar Rekam Medis',
+      group: 'daftar_rekam_mediss',
+      name: 'daftar_rekam_medis',
+      icon: 'assignment',
+      href: '/pendaftaran/daftar_rekam_medis'
     },
     // {
     //   title: 'Widgets',

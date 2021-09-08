@@ -1,18 +1,32 @@
 const Menu = [
-    {header: 'Kasir'},
+    {header: 'Medis'},
     {
       title: 'Dashboard',
-      group: 'kasir',
+      group: 'medis',
       icon: 'dashboard',
       name: 'Dashboard',
-      href: '/apotek/dashboard'
+      href: '/medis/dashboard'
     },
     {
-      title: 'Rekam Medis',
-      group: 'kasir',
+      title: 'Pemeriksaan',
+      group: 'medis',
       icon: 'fa fa-heartbeat',
-      name: '',
-      href: '/apotek/dashboard'
+      name: 'Pemeriksaan',
+      href: '/medis/pemeriksaan'
+    },
+    {
+      title: 'Report Pemeriksaan',
+      group: 'medis',
+      icon: 'fact_check',
+      name: 'report_pemeriksaan',
+      href: '/medis/report_pemeriksaan'
+    },
+    {
+      title: 'Report Pendapatan',
+      group: 'medis',
+      icon: 'request_quote',
+      name: 'report_pendapatan',
+      href: '/medis/report_pendapatan'
     },
     // {
     //   title: 'Widgets',
