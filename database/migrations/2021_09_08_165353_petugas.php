@@ -26,6 +26,8 @@ class Petugas extends Migration
             $table->integer('gaji');
             $table->string('foto');
             $table->rememberToken();
+            $table->string('password');
+
             $table->timestamps();
         });
     }

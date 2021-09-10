@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "client-klinik"
+		},
+		{
+			"path": "../clinik_pratama"
 		}
 	],
 	"settings": {}

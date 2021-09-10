@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class Petugas extends Authenticatable implements JWTSubject
 {
+    use HasFactory;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -20,17 +21,8 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
-        // 'email',
+        'email',
         'password',
-        'username',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'jenis_kelamin',
-        'kategori',
-        'alamat',
-        'no_hp',
-        'gaji',
-        'foto'
     ];
 
     /**
@@ -59,5 +51,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
 }
