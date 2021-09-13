@@ -16,14 +16,15 @@ class Pasien extends Migration
         Schema::create('pasien', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('no_ktp');
-            $table->string('tempat_lahir');
-            $table->string('tanggal_lahir');
+            $table->string('no_ktp')->unique();
+            $table->enum('kategori',['Pasien Umum','Pasien Khusus']);
+            $table->integer('tempat_lahir');
+            $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin',['laki-laki','perempuan']);
             $table->string('alamat');
-            $table->string('no_hp');
-            $table->string('usia');
-            $table->string('gol_darah');
+            $table->string('no_hp')->unique();
+            $table->integer('usia');
+            $table->enum('gol_darah',['A','B','AB','O','Belum Diketahui']);
             $table->rememberToken();
             $table->timestamps();
         });

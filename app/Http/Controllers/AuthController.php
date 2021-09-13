@@ -8,12 +8,13 @@ use App\Http\Resources\User as UserResource;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Tymon\JWTAuth\Facades\JWTAuth as JWTAut;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('JWTAut', ['except' => ['login', 'register']]);
     }
 
     public function register(ValidateUserRegistration $request)
@@ -36,7 +37,7 @@ class AuthController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Regidtered.',
-            'token' => $user
+            'data' => $user
         ]);;
     }
 

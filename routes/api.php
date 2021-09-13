@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\apotek\ObatConntroller;
+use App\Http\Controllers\apotek\ObatController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\pendaftaran\PasienController as PendaftaranPasienController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,16 +26,20 @@ Route::post('/register', [AuthController::class, "register"]);
 Route::post('/login', [AuthController::class, "login"]);
 Route::get('/user', [AuthController::class, "user"]);
 Route::get('/logout', [AuthController::class, "logout"]);
+
 Route::middleware(['auth:api', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AuthController::class, "user"]);
 });
 
 Route::middleware(['auth', 'pendaftaran'])->group(function () {
     Route::get('pendaftaran/dashboard', [AuthController::class, "user"]);
+    Route::resource('pendaftaran/pasien',PendaftaranPasienController::class);
 });
 
 Route::middleware(['auth', 'apotek'])->group(function () {
     Route::get('apotek/dashboard', [AuthController::class, "user"]);
+    Route::resource('apotek/obat', ObatController::class);
+    Route::put('apotek/obat/{id}/updatestok', [ObatController::class,"updateStok"]);
 });
 
 Route::middleware(['auth', 'medis'])->group(function () {

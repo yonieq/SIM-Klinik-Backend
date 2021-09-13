@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\JWTAuthentication;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'pendaftaran' => \App\Http\Middleware\pendaftaran::class,
         'kepala_kasir' => \App\Http\Middleware\kepala_kasir::class,
         'kepala_apotek' => \App\Http\Middleware\kepala_apotek::class,
+        'JWTAut'=> JWTAuthentication::class
     ];
 }

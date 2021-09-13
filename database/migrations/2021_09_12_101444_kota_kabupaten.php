@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Obat extends Migration
+class KotaKabupaten extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class Obat extends Migration
      */
     public function up()
     {
-        Schema::create('obat', function (Blueprint $table) {
+        Schema::create('kota_kabupaten', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
             $table->string('name');
-            $table->integer('jenis');
-            $table->date('kadaluarsa');
-            $table->integer('stok');
             $table->timestamps();
-        });
-    }
+        });    }
 
     /**
      * Reverse the migrations.

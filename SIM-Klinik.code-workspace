@@ -4,10 +4,13 @@
 			"path": "."
 		},
 		{
-			"path": "client-klinik"
+			"path": "../clinik_pratama"
 		},
 		{
-			"path": "../clinik_pratama"
+			"path": "../KolamLele"
+		},
+		{
+			"path": "client-klinik"
 		}
 	],
 	"settings": {}
