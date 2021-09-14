@@ -19,12 +19,11 @@ class PasienController extends Controller
     public function index()
     {
         $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
-                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
                 ->get([
                     'pasien.id as id',
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
-                    'pasien.kategori as kategori',
+                    'kategori_pasien.name as kategori',
                     'pasien.jenis_kelamin as jenis_kelamin',
                     'pasien.alamat as alamat',
                 ]);
@@ -97,8 +96,8 @@ class PasienController extends Controller
                 ->get([
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
-                    'pasien.kategori as kategori',
-                    'pasien.tempat_lahir as tempat_lahir',
+                    'kategori_pasien.name as kategori',
+                    'kota_kabupaten.name as tempat_lahir',
                     'pasien.tanggal_lahir as tanggal_lahir',
                     'pasien.jenis_kelamin as jenis_kelamin',
                     'pasien.alamat as alamat',
@@ -131,8 +130,8 @@ class PasienController extends Controller
                 ->get([
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
-                    'pasien.kategori as kategori',
-                    'pasien.tempat_lahir as tempat_lahir',
+                    'kategori_pasien.name as kategori',
+                    'kota_kabupaten.name as tempat_lahir',
                     'pasien.tanggal_lahir as tanggal_lahir',
                     'pasien.jenis_kelamin as jenis_kelamin',
                     'pasien.alamat as alamat',
