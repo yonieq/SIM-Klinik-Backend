@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\pendaftaran;
+namespace App\Http\Controllers\administrasi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidatePasien;
-use App\Models\Kategori_pasien;
+use App\Http\Requests\ValidateUpdatePegawai;
+use App\Http\Requests\ValidateUserRegistration;
 use App\Models\KotaKabupaten;
-use App\Models\Pasien;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class PasienController extends Controller
+class PegawaiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,20 +18,19 @@ class PasienController extends Controller
      */
     public function index()
     {
-        $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
+        $data = User::where('kategori','!=','owner')
                 ->get([
-                    'pasien.id as id',
-                    'pasien.name as name',
-                    'pasien.no_ktp as no_ktp',
-                    'kategori_pasien.name as kategori',
-                    'pasien.jenis_kelamin as jenis_kelamin',
-                    'pasien.alamat as alamat',
+                    'id',
+                    'name',
+                    'no_hp',
+                    'kategori',
+                    'jenis_kelamin',
                 ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => $data
-        ]);;
+        ]);
     }
 
     /**
@@ -41,14 +40,14 @@ class PasienController extends Controller
      */
     public function create()
     {
+        $kategori =[['kepala kasir'],['kasir'],['kepala apotek'],['apotek'],['medis'],['pendaftaran'],['dokter']];
         $kota = KotaKabupaten::get(['id','name']);
-        $kategori= Kategori_pasien::get(['id','name']);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => [
-                'kota'=> $kota,
-                'kategori'=>$kategori
+                'kategori'=>$kategori,
+                'kota'=> $kota
             ]
         ]);
     }
@@ -59,26 +58,27 @@ class PasienController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidatePasien $request)
+    public function store(ValidateUserRegistration $request)
     {
-        //
-        $data = Pasien::create([
-            'name'=> $request->name,
-            'no_ktp'=> $request->no_ktp,
-            'kategori'=> $request->kategori,
+        $user = User::create([
+            'name' => $request->name,
+            // 'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'username'=> $request->username,
             'tempat_lahir'=> $request->tempat_lahir,
             'tanggal_lahir'=> $request->tanggal_lahir,
             'jenis_kelamin'=> $request->jenis_kelamin,
+            'kategori'=> $request->kategori,
             'alamat'=> $request->alamat,
             'no_hp'=> $request->no_hp,
-            'usia'=> $request->usia,
-            'gol_darah'=> $request->gol_darah
+            'gaji'=> $request->gaji,
+            'foto'=> $request->foto
         ]);
         return response()->json([
             'type' => 'success',
-            'message' => 'Created.',
-            'data' => $data
-        ]);;
+            'message' => 'Regidtered.',
+            'data' =>$user
+        ]);
     }
 
     /**
@@ -89,28 +89,25 @@ class PasienController extends Controller
      */
     public function show($id)
     {
-        $data = Pasien::findOrFail($id);
-        $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
-                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
-                ->where('pasien.id', $id)
+        $data = User::findOrFail($id);
+        $data = User::join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+                ->where('users.id', $id)
                 ->first([
-                    'pasien.name as name',
-                    'pasien.no_ktp as no_ktp',
-                    'kategori_pasien.name as kategori',
+                    'users.name as name',
                     'kota_kabupaten.name as tempat_lahir',
-                    'pasien.tanggal_lahir as tanggal_lahir',
-                    'pasien.jenis_kelamin as jenis_kelamin',
-                    'pasien.alamat as alamat',
-                    'pasien.no_hp as no_hp',
-                    'pasien.usia as usia',
-                    'pasien.gol_darah as gol_darah'
+                    'users.tanggal_lahir',
+                    'users.jenis_kelamin',
+                    'users.kategori',
+                    'users.alamat',
+                    'users.no_hp',
+                    'users.gaji',
+                    'users.foto'
                 ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => $data
-        ]);;
-
+        ]);
     }
 
     /**
@@ -121,36 +118,31 @@ class PasienController extends Controller
      */
     public function edit($id)
     {
+        $kategori =[['kepala kasir'],['kasir'],['kepala apotek'],['apotek'],['medis'],['pendaftaran'],['dokter']];
         $kota = KotaKabupaten::get(['id','name']);
-        $kategori= Kategori_pasien::get(['id','name']);
-        $pasien = Pasien::findOrFail($id);
-        $pasien = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
-                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
-                ->where('pasien.id', $id)
+        $pegawai = User::findOrFail($id);
+        $pegawai = User::join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+                ->where('users.id', $id)
                 ->first([
-                    'pasien.name as name',
-                    'pasien.no_ktp as no_ktp',
-                    'kategori_pasien.name as kategori',
+                    'users.name as name',
                     'kota_kabupaten.name as tempat_lahir',
-                    'pasien.tanggal_lahir as tanggal_lahir',
-                    'pasien.jenis_kelamin as jenis_kelamin',
-                    'pasien.alamat as alamat',
-                    'pasien.no_hp as no_hp',
-                    'pasien.usia as usia',
-                    'pasien.gol_darah as gol_darah'
+                    'users.tanggal_lahir',
+                    'users.jenis_kelamin',
+                    'users.kategori',
+                    'users.alamat',
+                    'users.no_hp',
+                    'users.gaji',
+                    'users.foto'
                 ]);
-                $string = explode("62", $pasien->no_hp);
-                $x = $string[1];
-                $pasien->no_hp = $x;
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => [
-                'pasien'=>$pasien,
+                'pegawai'=>$pegawai,
                 'kategori'=>$kategori,
-                'kota'=>$kota
+                'kota'=> $kota
             ]
-        ]);;
+        ]);
     }
 
     /**
@@ -160,26 +152,24 @@ class PasienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ValidatePasien $request, $id)
+    public function update(ValidateUpdatePegawai $request, $id)
     {
-        $data = Pasien::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->name = $request->name;
-        $data->no_ktp = $request->no_ktp;
         $data->kategori = $request->kategori;
         $data->tempat_lahir = $request->tempat_lahir;
         $data->tanggal_lahir = $request->tanggal_lahir;
         $data->jenis_kelamin = $request->jenis_kelamin;
         $data->alamat = $request->alamat;
         $data->no_hp = $request->no_hp;
-        $data->usia = $request->usia;
-        $data->gol_darah = $request->gol_darah;
+        $data->gaji = $request->gaji;
+        $data->foto = $request->foto;
         $data->update();
         return response()->json([
             'type' => 'success',
             'message' => 'Updated.',
             'data' => $data
         ]);;
-
     }
 
     /**
@@ -190,7 +180,13 @@ class PasienController extends Controller
      */
     public function destroy($id)
     {
-        $data = Pasien::findOrFail($id);
+        $data = User::findOrFail($id);
+        if ($data->kategori== "owner" || $data->kategori== "admin") {
+            return response()->json([
+                'type' => 'failed',
+                'message' => 'Tidak Dapat Menghapus.',
+            ]);
+        }
         $data->delete();
         return response()->json([
             'type' => 'success',

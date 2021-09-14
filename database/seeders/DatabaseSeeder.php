@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
     {    $this->call([
         SeedersUsers::class,
         KotaKabupaten::class,
-        Kategori_pasien::class
+        Kategori_pasien::class,
+        pasien::class,
+        PoliklinikSeeder::class
     ]);
 
         // \App\Models\User::factory(10)->create();

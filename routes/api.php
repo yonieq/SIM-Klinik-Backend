@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\administrasi\PegawaiController;
+use App\Http\Controllers\administrasi\PoliklinikController;
 use App\Http\Controllers\apotek\ObatConntroller;
 use App\Http\Controllers\apotek\ObatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\pendaftaran\PasienController as PendaftaranPasienController;
+use Illuminate\Foundation\Console\PolicyMakeCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +32,8 @@ Route::get('/logout', [AuthController::class, "logout"]);
 
 Route::middleware(['JWTAut', 'admin'])->group(function () {
     Route::get('admin/dashboard', [AuthController::class, "user"]);
+    Route::resource('admin/poliklinik', PoliklinikController::class);
+    Route::resource('admin/pegawai', PegawaiController::class);
 });
 
 Route::middleware(['JWTAut','pendaftaran'])->group(function () {

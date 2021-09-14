@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             // $table->string('email')->unique();
             $table->string('username')->unique();
             // $table->timestamp('email_verified_at')->nullable();
-            $table->string('tempat_lahir');
+            $table->integer('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin',['laki-laki','perempuan']);
-            $table->enum('kategori',['admin','kepala kasir','kasir','kepala apotek','apotek','medis','pendaftaran']);
+            $table->enum('kategori',['admin','kepala kasir','kasir','kepala apotek','apotek','medis','pendaftaran','dokter']);
             $table->string('alamat');
             $table->string('no_hp')->unique();
             $table->integer('gaji');
