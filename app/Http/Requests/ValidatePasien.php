@@ -26,12 +26,12 @@ class ValidatePasien extends FormRequest
         return [
         'name'=> "required",
         'no_ktp'=> "required|numeric|unique:pasien|digits:16",
-        'kategori'=> "required|in:Pasien Umum, Pasien Khusus",
-        'tempat_lahir'=> "required",
+        'kategori'=> "required|exists:kategori_pasien,id",
+        'tempat_lahir'=> "required|exists:kota_kabupaten,id",
         'tanggal_lahir'=> "required|date",
         'jenis_kelamin'=> "required|in:laki-laki,perempuan",
         'alamat'=> "required",
-        'no_hp'=> "required|numeric|unique:pasien",
+        'no_hp'=> "required|numeric|unique:pasien|digits:13",
         'usia'=> "required|numeric",
         'gol_darah'=> "required|in:A, B, AB, O,Belum Diketahui"
         ];

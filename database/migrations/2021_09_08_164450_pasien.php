@@ -17,14 +17,14 @@ class Pasien extends Migration
             $table->id();
             $table->string('name');
             $table->string('no_ktp')->unique();
-            $table->enum('kategori',['Pasien Umum','Pasien Khusus']);
+            $table->integer('kategori');
             $table->integer('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin',['laki-laki','perempuan']);
             $table->string('alamat');
             $table->string('no_hp')->unique();
             $table->integer('usia');
-            $table->enum('gol_darah',['A','B','AB','O','Belum Diketahui']);
+            $table->string('gol_darah');
             $table->rememberToken();
             $table->timestamps();
         });

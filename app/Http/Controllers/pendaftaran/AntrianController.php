@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\pendaftaran;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GanerateCode;
+use App\Models\Antrian;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 
@@ -49,6 +51,18 @@ class AntrianController extends Controller
     public function store(Request $request)
     {
         //
+        $data = Antrian::create([
+            'no_antri'=>GanerateCode::ganerate("antrian", 'ANTR', "no_antri"),
+            'nik'=> $request->nik,
+            'tgl_periksa'=> $request->tgl_periksa,
+            'dokter'=> $request->dokter,
+            'status'=> 'antri'
+        ]);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Created.',
+            'data' => $data
+        ]);;
     }
 
     /**
@@ -70,7 +84,12 @@ class AntrianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Antrian::findOrFail($id);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Geted.',
+            'data' => $data
+        ]);;
     }
 
     /**

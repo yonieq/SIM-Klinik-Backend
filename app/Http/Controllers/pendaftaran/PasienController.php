@@ -4,6 +4,7 @@ namespace App\Http\Controllers\pendaftaran;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidatePasien;
+use App\Models\Kategori_pasien;
 use App\Models\KotaKabupaten;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
@@ -17,14 +18,16 @@ class PasienController extends Controller
      */
     public function index()
     {
-        $data = Pasien::get([
-            'id',
-            'name',
-            // 'kategori',
-            'jenis_kelamin',
-            'alamat',
-            'no_hp',
-        ]);
+        $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
+                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
+                ->get([
+                    'pasien.id as id',
+                    'pasien.name as name',
+                    'pasien.no_ktp as no_ktp',
+                    'pasien.kategori as kategori',
+                    'pasien.jenis_kelamin as jenis_kelamin',
+                    'pasien.alamat as alamat',
+                ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -40,13 +43,15 @@ class PasienController extends Controller
     public function create()
     {
         $kota = KotaKabupaten::get();
+        $kategori= Kategori_pasien::get();
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => [
-                'kota'=> $kota
+                'kota'=> $kota,
+                'kategori'=>$kategori
             ]
-        ]);;
+        ]);
     }
 
     /**
@@ -66,7 +71,7 @@ class PasienController extends Controller
             'tanggal_lahir'=> $request->tanggal_lahir,
             'jenis_kelamin'=> $request->jenis_kelamin,
             'alamat'=> $request->alamat,
-            'no_hp'=> $request->no_hp,
+            'no_hp'=> '62'.$request->no_hp,
             'usia'=> $request->usia,
             'gol_darah'=> $request->gol_darah
         ]);
@@ -86,6 +91,21 @@ class PasienController extends Controller
     public function show($id)
     {
         $data = Pasien::findOrFail($id);
+        $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
+                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
+                ->where('pasien.id', $id)
+                ->get([
+                    'pasien.name as name',
+                    'pasien.no_ktp as no_ktp',
+                    'pasien.kategori as kategori',
+                    'pasien.tempat_lahir as tempat_lahir',
+                    'pasien.tanggal_lahir as tanggal_lahir',
+                    'pasien.jenis_kelamin as jenis_kelamin',
+                    'pasien.alamat as alamat',
+                    'pasien.no_hp as no_hp',
+                    'pasien.usia as usia',
+                    'pasien.gol_darah as gol_darah'
+                ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -102,11 +122,32 @@ class PasienController extends Controller
      */
     public function edit($id)
     {
-        $data = Pasien::findOrFail($id);
+        $kota = KotaKabupaten::get();
+        $kategori= Kategori_pasien::get();
+        $pasien = Pasien::findOrFail($id);
+        $pasien = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
+                ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
+                ->where('pasien.id', $id)
+                ->get([
+                    'pasien.name as name',
+                    'pasien.no_ktp as no_ktp',
+                    'pasien.kategori as kategori',
+                    'pasien.tempat_lahir as tempat_lahir',
+                    'pasien.tanggal_lahir as tanggal_lahir',
+                    'pasien.jenis_kelamin as jenis_kelamin',
+                    'pasien.alamat as alamat',
+                    'pasien.no_hp as no_hp',
+                    'pasien.usia as usia',
+                    'pasien.gol_darah as gol_darah'
+                ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
-            'data' => $data
+            'data' => [
+                'pasien'=>$pasien,
+                'kategori'=>$kategori,
+                'kota'=>$kota
+            ]
         ]);;
     }
 
