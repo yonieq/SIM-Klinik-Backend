@@ -41,8 +41,8 @@ class PasienController extends Controller
      */
     public function create()
     {
-        $kota = KotaKabupaten::get();
-        $kategori= Kategori_pasien::get();
+        $kota = KotaKabupaten::get(['id','name']);
+        $kategori= Kategori_pasien::get(['id','name']);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -70,7 +70,7 @@ class PasienController extends Controller
             'tanggal_lahir'=> $request->tanggal_lahir,
             'jenis_kelamin'=> $request->jenis_kelamin,
             'alamat'=> $request->alamat,
-            'no_hp'=> '62'.$request->no_hp,
+            'no_hp'=> $request->no_hp,
             'usia'=> $request->usia,
             'gol_darah'=> $request->gol_darah
         ]);
@@ -93,7 +93,7 @@ class PasienController extends Controller
         $data = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
                 ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
                 ->where('pasien.id', $id)
-                ->get([
+                ->first([
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
                     'kategori_pasien.name as kategori',
@@ -121,13 +121,13 @@ class PasienController extends Controller
      */
     public function edit($id)
     {
-        $kota = KotaKabupaten::get();
-        $kategori= Kategori_pasien::get();
+        $kota = KotaKabupaten::get(['id','name']);
+        $kategori= Kategori_pasien::get(['id','name']);
         $pasien = Pasien::findOrFail($id);
         $pasien = Pasien::join('kategori_pasien', 'pasien.kategori', '=', 'kategori_pasien.id')
                 ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
                 ->where('pasien.id', $id)
-                ->get([
+                ->first([
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
                     'kategori_pasien.name as kategori',
@@ -139,6 +139,9 @@ class PasienController extends Controller
                     'pasien.usia as usia',
                     'pasien.gol_darah as gol_darah'
                 ]);
+                $string = explode("62", $pasien->no_hp);
+                $x = $string[1];
+                $pasien->no_hp = $x;
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',

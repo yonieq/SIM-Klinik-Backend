@@ -37,13 +37,16 @@ class JWTAuthentication extends BaseMiddleware
                 // ]);
                 }catch (JWTException $e){
                     return response()->json([
-                        'code'   => 103,
+                        // 'code'   => 103,
+                        'code'   => 401,
                         'message' => 'Token cannot be refreshed, please Login again'
                     ]);
                 }
-            }else{
+            }
+            else{
                 $message = 'Authorization Token not found';
-                return response()->json(compact('message'), 404);
+                // return response()->json(compact('message'), 404);
+                return response()->json(compact('message'), 401);
             }
         }
         return $next($request);
