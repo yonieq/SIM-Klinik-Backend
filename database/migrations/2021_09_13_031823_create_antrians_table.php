@@ -18,7 +18,9 @@ class CreateAntriansTable extends Migration
             $table->string('no_antri');
             $table->string('nik');
             $table->date('tgl_periksa');
-            $table->enum('status',['antri','periksa','batal']);
+            $table->time('jam');
+            $table->integer('jadwal_id');
+            $table->integer('status');
             $table->integer('dokter');
             $table->timestamps();
         });

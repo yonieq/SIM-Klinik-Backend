@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 14, 2021 at 10:09 AM
+-- Generation Time: Sep 17, 2021 at 09:18 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -24,45 +24,28 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `poliklinik`
+-- Table structure for table `dokterpoli`
 --
 
--- CREATE TABLE `poliklinik` (
---   `id` bigint(20) UNSIGNED NOT NULL,
---   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+-- CREATE TABLE `dokterpoli` (
+--   `dokter_id` int(11) NOT NULL,
+--   `poli_id` int(11) NOT NULL,
 --   `created_at` timestamp NULL DEFAULT NULL,
 --   `updated_at` timestamp NULL DEFAULT NULL
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `poliklinik`
+-- Dumping data for table `dokterpoli`
 --
 
-INSERT INTO `poliklinik` (`id`, `name`,`kode`, `created_at`, `updated_at`) VALUES
-(1, 'Poli Mata','P.Mata', '2021-09-14 01:04:04', '2021-09-14 01:04:04'),
-(2, 'Poli THT','P.THT', '2021-09-14 01:04:15', '2021-09-14 01:04:15'),
-(4, 'Poli Gigi dan Mulut','P.GdM', '2021-09-14 01:08:58', '2021-09-14 01:08:58');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `poliklinik`
---
--- ALTER TABLE `poliklinik`
---   ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `poliklinik`
---
--- ALTER TABLE `poliklinik`
---   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
--- COMMIT;
+INSERT INTO `dokterpoli` (`dokter_id`, `poli_id`, `created_at`, `updated_at`) VALUES
+(12, 4, '2021-09-14 14:39:36', '2021-09-14 14:46:59'),
+(13, 1, '2021-09-16 10:26:23', '2021-09-16 10:26:23'),
+(14, 2, '2021-09-16 10:27:23', '2021-09-16 10:27:23'),
+(15, 4, '2021-09-16 10:29:32', '2021-09-16 10:29:32'),
+(16, 1, '2021-09-16 10:30:59', '2021-09-16 10:30:59'),
+(17, 2, '2021-09-16 10:32:39', '2021-09-16 10:32:39');
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

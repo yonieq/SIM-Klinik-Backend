@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ValidateUserRegistration extends FormRequest
+class ValidateDokter extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,11 +32,12 @@ class ValidateUserRegistration extends FormRequest
             'tempat_lahir'=> "required|exists:kota_kabupaten,id",
             'tanggal_lahir'=> "required|date",
             'jenis_kelamin'=> "required|in:laki-laki,perempuan",
-            'kategori'=> "required|in:admin,kepala kasir,kasir,kepala apotek,apotek,medis,pendaftaran",
+            // 'kategori'=> "required|in:dokter",
             'alamat'=> "required",
-            'no_hp'=> "required|unique:users",
+            'no_hp'=> ["required",Rule::unique('users')->ignore($this->dokter)],
             'gaji'=> "required|numeric",
-            'foto'=> "required"
+            'foto'=> "required",
+            'poli'=> "required|exists:poliklinik,id"
         ];
     }
 }

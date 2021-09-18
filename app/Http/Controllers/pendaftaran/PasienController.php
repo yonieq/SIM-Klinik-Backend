@@ -94,6 +94,7 @@ class PasienController extends Controller
                 ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
                 ->where('pasien.id', $id)
                 ->first([
+                    'pasien.id as id',
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
                     'kategori_pasien.name as kategori',
@@ -128,6 +129,7 @@ class PasienController extends Controller
                 ->join('kota_kabupaten', 'pasien.tempat_lahir', '=', 'kota_kabupaten.id')
                 ->where('pasien.id', $id)
                 ->first([
+                    'pasien.id as id',
                     'pasien.name as name',
                     'pasien.no_ktp as no_ktp',
                     'kategori_pasien.name as kategori',

@@ -14,6 +14,8 @@ class Antrian extends Model
         'nik',
         'tgl_periksa',
         'dokter',
+        'jam',
+        'jadwal_id',
         'status'
     ];
 }

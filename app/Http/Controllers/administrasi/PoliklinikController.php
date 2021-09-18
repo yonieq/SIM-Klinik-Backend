@@ -18,6 +18,7 @@ class PoliklinikController extends Controller
         $data = Poliklinik::get([
             'id',
             'name',
+            'kode'
         ]);
         return response()->json([
             'type' => 'success',
@@ -47,6 +48,7 @@ class PoliklinikController extends Controller
     {
         $data = Poliklinik::create([
             'name'=> $request->name,
+            'kode'=> $request->kode
         ]);
         return response()->json([
             'type' => 'success',
@@ -93,6 +95,7 @@ class PoliklinikController extends Controller
     {
         $data = Poliklinik::findOrFail($id);
         $data->name = $request->name;
+        $data->kode = $request->kode;
         $data->update();
         return response()->json([
             'type' => 'success',

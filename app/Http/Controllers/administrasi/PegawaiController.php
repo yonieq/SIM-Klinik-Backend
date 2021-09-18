@@ -18,14 +18,15 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $data = User::where('kategori','!=','owner')
-                ->get([
-                    'id',
-                    'name',
-                    'no_hp',
-                    'kategori',
-                    'jenis_kelamin',
-                ]);
+        $data = User::where('kategori', '!=', 'owner')
+            ->where('kategori', '!=', 'admin')
+            ->get([
+                'id',
+                'name',
+                'no_hp',
+                'kategori',
+                'jenis_kelamin',
+            ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -40,14 +41,39 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        $kategori =[['kepala kasir'],['kasir'],['kepala apotek'],['apotek'],['medis'],['pendaftaran'],['dokter']];
-        $kota = KotaKabupaten::get(['id','name']);
+        $kategori = [
+            [
+                'name' => 'kepala kasir',
+                'tittle' => 'Kepala Kasir'
+            ],
+            [
+                'name' => 'kasir',
+                'tittle' => 'Kasir'
+            ],
+            [
+                'name' => 'kepala apotek',
+                'tittle' => 'Kepala Apotek'
+            ],
+            [
+                'name' => 'apotek',
+                'tittle' => 'Apotek'
+            ],
+            [
+                'name' => 'medis',
+                'tittle' => 'Medis'
+            ],
+            [
+                'name' => 'pendaftaran',
+                'tittle' => 'Pendaftaran'
+            ]
+        ];
+        $kota = KotaKabupaten::get(['id', 'name']);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => [
-                'kategori'=>$kategori,
-                'kota'=> $kota
+                'kategori' => $kategori,
+                'kota' => $kota
             ]
         ]);
     }
@@ -60,24 +86,52 @@ class PegawaiController extends Controller
      */
     public function store(ValidateUserRegistration $request)
     {
+        if ($request->kategori == 'Kepala Apotek' || $request->kategori == 'Kepala Kasir') {
+            # code...
+            if (User::where('kategori', $request->kategori)->exists()) {
+                return response()->json([
+                    'type' => 'failed',
+                    'message' => 'User '.$request->kategori.' ada.',
+                ]);
+            }
+            $user = User::create([
+                'name' => $request->name,
+                // 'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'username' => $request->username,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'kategori' => $request->kategori,
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'gaji' => $request->gaji,
+                'foto' => $request->foto
+            ]);
+            return response()->json([
+                'type' => 'success',
+                'message' => 'Regidtered.',
+                'data' => $user
+            ]);
+        }
         $user = User::create([
             'name' => $request->name,
             // 'email' => $request->email,
             'password' => bcrypt($request->password),
-            'username'=> $request->username,
-            'tempat_lahir'=> $request->tempat_lahir,
-            'tanggal_lahir'=> $request->tanggal_lahir,
-            'jenis_kelamin'=> $request->jenis_kelamin,
-            'kategori'=> $request->kategori,
-            'alamat'=> $request->alamat,
-            'no_hp'=> $request->no_hp,
-            'gaji'=> $request->gaji,
-            'foto'=> $request->foto
+            'username' => $request->username,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'kategori' => $request->kategori,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+            'gaji' => $request->gaji,
+            'foto' => $request->foto
         ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Regidtered.',
-            'data' =>$user
+            'data' => $user
         ]);
     }
 
@@ -89,20 +143,21 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
-        $data = User::findOrFail($id);
-        $data = User::join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
-                ->where('users.id', $id)
-                ->first([
-                    'users.name as name',
-                    'kota_kabupaten.name as tempat_lahir',
-                    'users.tanggal_lahir',
-                    'users.jenis_kelamin',
-                    'users.kategori',
-                    'users.alamat',
-                    'users.no_hp',
-                    'users.gaji',
-                    'users.foto'
-                ]);
+        $data = User::where('kategori', '!=', 'owner')
+            ->where('kategori', '!=', 'admin')->where('users.id', $id)
+            ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            ->firstOrFail([
+                'users.id as id',
+                'users.name as name',
+                'kota_kabupaten.name as tempat_lahir',
+                'users.tanggal_lahir',
+                'users.jenis_kelamin',
+                'users.kategori',
+                'users.alamat',
+                'users.no_hp',
+                'users.gaji',
+                'users.foto'
+            ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -118,29 +173,55 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $kategori =[['kepala kasir'],['kasir'],['kepala apotek'],['apotek'],['medis'],['pendaftaran'],['dokter']];
-        $kota = KotaKabupaten::get(['id','name']);
-        $pegawai = User::findOrFail($id);
-        $pegawai = User::join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
-                ->where('users.id', $id)
-                ->first([
-                    'users.name as name',
-                    'kota_kabupaten.name as tempat_lahir',
-                    'users.tanggal_lahir',
-                    'users.jenis_kelamin',
-                    'users.kategori',
-                    'users.alamat',
-                    'users.no_hp',
-                    'users.gaji',
-                    'users.foto'
-                ]);
+        $kategori = [
+            [
+                'name' => 'kepala kasir',
+                'tittle' => 'Kepala Kasir'
+            ],
+            [
+                'name' => 'kasir',
+                'tittle' => 'Kasir'
+            ],
+            [
+                'name' => 'kepala apotek',
+                'tittle' => 'Kepala Apotek'
+            ],
+            [
+                'name' => 'apotek',
+                'tittle' => 'Apotek'
+            ],
+            [
+                'name' => 'medis',
+                'tittle' => 'Medis'
+            ],
+            [
+                'name' => 'pendaftaran',
+                'tittle' => 'Pendaftaran'
+            ]
+        ];
+        $kota = KotaKabupaten::get(['id', 'name']);
+        $pegawai = User::where('kategori', '!=', 'owner')
+            ->where('kategori', '!=', 'admin')->where('users.id', $id)
+            ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            ->firstOrFail([
+                'users.id as id',
+                'users.name as name',
+                'kota_kabupaten.name as tempat_lahir',
+                'users.tanggal_lahir',
+                'users.jenis_kelamin',
+                'users.kategori',
+                'users.alamat',
+                'users.no_hp',
+                'users.gaji',
+                'users.foto'
+            ]);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
             'data' => [
-                'pegawai'=>$pegawai,
-                'kategori'=>$kategori,
-                'kota'=> $kota
+                'pegawai' => $pegawai,
+                'kategori' => $kategori,
+                'kota' => $kota
             ]
         ]);
     }
@@ -156,7 +237,6 @@ class PegawaiController extends Controller
     {
         $data = User::findOrFail($id);
         $data->name = $request->name;
-        $data->kategori = $request->kategori;
         $data->tempat_lahir = $request->tempat_lahir;
         $data->tanggal_lahir = $request->tanggal_lahir;
         $data->jenis_kelamin = $request->jenis_kelamin;
@@ -164,12 +244,37 @@ class PegawaiController extends Controller
         $data->no_hp = $request->no_hp;
         $data->gaji = $request->gaji;
         $data->foto = $request->foto;
+        if ($request->kategori == 'Kepala Apotek' || $request->kategori == 'Kepala Kasir') {
+            # code...
+            if (User::where('kategori', $request->kategori)->exists()) {
+                if ($request->kategori == $data->kategori) {
+                    $data->update();
+                    return response()->json([
+                        'type' => 'success',
+                        'message' => 'Updated.',
+                        'data' => $data
+                    ]);
+                }
+                return response()->json([
+                    'type' => 'failed',
+                    'message' => 'User '.$request->kategori.' ada.',
+                ]);
+            }
+            $data->kategori = $request->kategori;
+            $data->update();    
+            return response()->json([
+                'type' => 'success',
+                'message' => 'Regidtered.',
+                'data' => $data
+            ]);
+        }
+        $data->kategori = $request->kategori;
         $data->update();
         return response()->json([
             'type' => 'success',
             'message' => 'Updated.',
             'data' => $data
-        ]);;
+        ]);
     }
 
     /**
@@ -181,7 +286,7 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         $data = User::findOrFail($id);
-        if ($data->kategori== "owner" || $data->kategori== "admin") {
+        if ($data->kategori == "owner" || $data->kategori == "dokter" || $data->kategori == "admin") {
             return response()->json([
                 'type' => 'failed',
                 'message' => 'Tidak Dapat Menghapus.',

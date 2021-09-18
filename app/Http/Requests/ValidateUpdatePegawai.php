@@ -32,7 +32,7 @@ class ValidateUpdatePegawai extends FormRequest
             'tempat_lahir'=> "required|exists:kota_kabupaten,id",
             'tanggal_lahir'=> "required|date",
             'jenis_kelamin'=> "required|in:laki-laki,perempuan",
-            'kategori'=> "required|in:admin,kepala kasir,kasir,kepala apotek,apotek,medis,pendaftaran,dokter",
+            'kategori'=> "required|in:admin,kepala kasir,kasir,kepala apotek,apotek,medis,pendaftaran",
             'alamat'=> "required",
             'no_hp'=> ["required",Rule::unique('users')->ignore($this->pegawai)],
             'gaji'=> "required|numeric",

@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
         KotaKabupaten::class,
         Kategori_pasien::class,
         pasien::class,
-        PoliklinikSeeder::class
+        PoliklinikSeeder::class,
+        Dokterpoli_seeder::class,
+        Jadwal_dokterSeeder::class
     ]);
 
         // \App\Models\User::factory(10)->create();
