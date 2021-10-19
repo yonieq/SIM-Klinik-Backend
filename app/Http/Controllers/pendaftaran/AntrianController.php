@@ -4,6 +4,7 @@ namespace App\Http\Controllers\pendaftaran;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GanerateCodeAntrian;
+use App\Http\Middleware\admin;
 use App\Http\Requests\ValidateAntrian;
 use App\Http\Requests\ValidateUpdateAntrian;
 use App\Models\Antrian;
@@ -85,24 +86,43 @@ class AntrianController extends Controller
                 ]
             ], 422);
         }
-        $status = Status_pasien::create([
-            'pasien_id' => Pasien::where('no_ktp', $request->nik)->first('id')->id,
-            'status' => 'antri',
-            'tanggal' => $request->tgl_periksa,
-        ]);
-        $data = Antrian::create([
-            'no_antri' => GanerateCodeAntrian::ganerate("antrian", 'tgl_periksa', $request->tgl_periksa, 'dokter', $datadokter->dokter_id, 'jam', $datadokter->jam_mulai, 'ANTR|' . $datadokter->kode, "no_antri"),
-            'nik' => $request->nik,
-            'tgl_periksa' => $request->tgl_periksa,
-            'jam' => $datadokter->jam_mulai,
-            'jadwal_id' => $request->jadwal_id,
-            'dokter' => $datadokter->dokter_id,
-            'status' => $status->id
-        ]);
+
+        // $status = Status_pasien::create([
+        //     'pasien_id' => Pasien::where('no_ktp', $request->nik)->first('id')->id,
+        //     'status' => 'antri',
+        //     'tanggal' => $request->tgl_periksa,
+        // ]);
+        $pasien = Pasien::where('no_ktp', $request->nik)->firstOrFail();
+        $status = new Status_pasien();
+        $status->status = 'antri';
+        $status->tanggal = $request->tgl_periksa;
+        $pasien->status()->save($status);
+
+
+        // $data = Antrian::create([
+        //     'no_antri' => GanerateCodeAntrian::ganerate("antrian", 'tgl_periksa', $request->tgl_periksa, 'dokter', $datadokter->dokter_id, 'jam', $datadokter->jam_mulai, 'ANTR|' . $datadokter->kode, "no_antri"),
+        //     'nik' => $request->nik,
+        //     'tgl_periksa' => $request->tgl_periksa,
+        //     'jam' => $datadokter->jam_mulai,
+        //     'jadwal_id' => $request->jadwal_id,
+        //     'dokter' => $datadokter->dokter_id,
+        //     'status' => $status->id
+        // ]);
+        $antrian = new Antrian;
+        $antrian->no_antri = GanerateCodeAntrian::ganerate("antrian", 'tgl_periksa', $request->tgl_periksa, 'dokter', $datadokter->dokter_id, 'jam', $datadokter->jam_mulai, 'ANTR|' . $datadokter->kode, "no_antri");
+        // $antrian->nik = $request->nik;
+        $antrian->tgl_periksa = $request->tgl_periksa;
+        $antrian->jam = $datadokter->jam_mulai;
+        $antrian->jadwal_id = $request->jadwal_id;
+        $antrian->dokter = $datadokter->dokter_id;
+        $antrian->status = $status->id;
+        $pasien->antrian()->save($antrian);
+        $antrian->status_;
+        // $antrian = Antrian::findOrfail($antrian->id)->status_;
         return response()->json([
             'type' => 'success',
             'message' => 'Created.',
-            'data' => $data
+            'data' => $antrian
         ]);;
     }
 

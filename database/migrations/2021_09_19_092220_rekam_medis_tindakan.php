@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePolikliniksTable extends Migration
+class RekamMedisTindakan extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,7 @@ class CreatePolikliniksTable extends Migration
      */
     public function up()
     {
-        Schema::create('poliklinik', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('kode')->unique();
-            $table->timestamps();
-        });
+        //
     }
 
     /**
@@ -28,6 +23,6 @@ class CreatePolikliniksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('polikliniks');
+        //
     }
 }

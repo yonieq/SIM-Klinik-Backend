@@ -16,6 +16,13 @@ class owner
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if (auth()->check() && auth()->user()->kategori == "owner") {
+            return $next($request);
+        }
+        //  return redirect(‘/’);
+        return response()->json([
+            'type' => 'failed',
+            'message' => 'Tidak Ada Ijin',
+        ], 403);
     }
 }

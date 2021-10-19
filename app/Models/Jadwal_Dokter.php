@@ -16,4 +16,12 @@ class Jadwal_Dokter extends Model
         'jam_mulai',
         'jam_akhir'
     ];
+    public function dokter()
+    {
+        return $this->belongsTo(User::class,'dokter_id');
+    }
+    public function poliklinik()
+    {
+        return $this->belongsTo(Poliklinik::class,'poli');
+    }
 }

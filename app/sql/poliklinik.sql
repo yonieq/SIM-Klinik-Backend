@@ -38,7 +38,7 @@
 -- Dumping data for table `poliklinik`
 --
 
-INSERT INTO `poliklinik` (`id`, `name`,`kode`, `created_at`, `updated_at`) VALUES
+INSERT INTO `poliklinik` (`id`, `nama`,`kode`, `created_at`, `updated_at`) VALUES
 (1, 'Poli Mata','P.Mata', '2021-09-14 01:04:04', '2021-09-14 01:04:04'),
 (2, 'Poli THT','P.THT', '2021-09-14 01:04:15', '2021-09-14 01:04:15'),
 (4, 'Poli Gigi dan Mulut','P.GdM', '2021-09-14 01:08:58', '2021-09-14 01:08:58');

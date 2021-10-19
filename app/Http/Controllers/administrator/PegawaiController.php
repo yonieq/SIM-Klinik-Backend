@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\administrasi;
+namespace App\Http\Controllers\administrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateUpdatePegawai;
@@ -20,6 +20,7 @@ class PegawaiController extends Controller
     {
         $data = User::where('kategori', '!=', 'owner')
             ->where('kategori', '!=', 'admin')
+            ->where('kategori', '!=', 'dokter')
             ->get([
                 'id',
                 'name',
@@ -59,8 +60,8 @@ class PegawaiController extends Controller
                 'tittle' => 'Apotek'
             ],
             [
-                'name' => 'medis',
-                'tittle' => 'Medis'
+                'name' => 'dokter',
+                'tittle' => 'Dokter'
             ],
             [
                 'name' => 'pendaftaran',
@@ -128,6 +129,7 @@ class PegawaiController extends Controller
             'gaji' => $request->gaji,
             'foto' => $request->foto
         ]);
+        $user->tempat_lahir_;
         return response()->json([
             'type' => 'success',
             'message' => 'Regidtered.',
@@ -144,12 +146,17 @@ class PegawaiController extends Controller
     public function show($id)
     {
         $data = User::where('kategori', '!=', 'owner')
-            ->where('kategori', '!=', 'admin')->where('users.id', $id)
-            ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            ->where('kategori', '!=', 'admin')
+            ->where('kategori', '!=', 'dokter')
+            ->where('users.id', $id)
+            // ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            ->with(['tempat_lahir_' => function($query) {
+                $query->select('id','name');
+            }])
             ->firstOrFail([
                 'users.id as id',
                 'users.name as name',
-                'kota_kabupaten.name as tempat_lahir',
+                'users.tempat_lahir as tempat_lahir',
                 'users.tanggal_lahir',
                 'users.jenis_kelamin',
                 'users.kategori',
@@ -202,11 +209,14 @@ class PegawaiController extends Controller
         $kota = KotaKabupaten::get(['id', 'name']);
         $pegawai = User::where('kategori', '!=', 'owner')
             ->where('kategori', '!=', 'admin')->where('users.id', $id)
-            ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            // ->join('kota_kabupaten', 'users.tempat_lahir', '=', 'kota_kabupaten.id')
+            ->with(['tempat_lahir_' => function($query) {
+                $query->select('id','name');
+            }])
             ->firstOrFail([
                 'users.id as id',
                 'users.name as name',
-                'kota_kabupaten.name as tempat_lahir',
+                'users.tempat_lahir as tempat_lahir',
                 'users.tanggal_lahir',
                 'users.jenis_kelamin',
                 'users.kategori',
@@ -249,6 +259,7 @@ class PegawaiController extends Controller
             if (User::where('kategori', $request->kategori)->exists()) {
                 if ($request->kategori == $data->kategori) {
                     $data->update();
+                    $data->tempat_lahir_;
                     return response()->json([
                         'type' => 'success',
                         'message' => 'Updated.',
@@ -262,6 +273,7 @@ class PegawaiController extends Controller
             }
             $data->kategori = $request->kategori;
             $data->update();    
+            $data->tempat_lahir_;
             return response()->json([
                 'type' => 'success',
                 'message' => 'Regidtered.',
@@ -270,6 +282,7 @@ class PegawaiController extends Controller
         }
         $data->kategori = $request->kategori;
         $data->update();
+        $data->tempat_lahir_;
         return response()->json([
             'type' => 'success',
             'message' => 'Updated.',

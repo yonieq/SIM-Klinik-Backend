@@ -11,6 +11,9 @@ class KotaKabupaten extends Model
     protected $table = 'kota_kabupaten';
     protected $fillable = [
         'name',
-];
-
+    ];
+    public function dokterPoli()
+    {
+        return $this->hasMany(User::class, 'tempat_lahir');
+    }
 }

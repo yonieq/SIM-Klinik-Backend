@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class admin
+class keuangan
 {
     /**
      * Handle an incoming request.
@@ -17,14 +16,12 @@ class admin
      */
     public function handle(Request $request, Closure $next)
     {
-        // return $next($request);
-        if (auth()->check() && auth()->user()->kategori == "admin") {
+        if (auth()->check() && auth()->user()->kategori == "keuangan") {
             return $next($request);
-          }
+        }
         //  return redirect(‘/’);
         return response()->json([
             'type' => 'failed',
             'message' => 'Tidak Ada Ijin',
-        ],403);
-    }
+        ], 403);            }
 }

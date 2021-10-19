@@ -15,4 +15,11 @@ class Status_pasien extends Model
         'tanggal',
         'no_RM'
     ];
+    public function antrian()
+    {
+        return $this->hasOne(Antrian::class,'status');
+    }
+    public function pasien(){
+		return $this->belongsTo(Pasien::class,"pasien_id");
+	}
 }

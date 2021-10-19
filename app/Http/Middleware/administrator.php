@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class medis
+class administrator
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,13 @@ class medis
     public function handle(Request $request, Closure $next)
     {
         // return $next($request);
-        if (auth()->check() && auth()->user()->kategori == "medis") {
+        if (auth()->check() && auth()->user()->kategori == "administrator") {
             return $next($request);
-          }
+        }
         //  return redirect(‘/’);
         return response()->json([
             'type' => 'failed',
             'message' => 'Tidak Ada Ijin',
-        ],403);
+        ], 403);
     }
 }

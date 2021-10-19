@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class kepala_kasir
+class administrasi
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class kepala_kasir
     public function handle(Request $request, Closure $next)
     {
         // return $next($request);
-        if (auth()->check() && auth()->user()->kategori == "kepala kasir") {
+        if (auth()->check() && auth()->user()->kategori == "administrasi") {
             return $next($request);
           }
         //  return redirect(‘/’);

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class dokter
+class perawat
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class dokter
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->kategori == "dokter") {
+        if (auth()->check() && auth()->user()->kategori == "perawat") {
             return $next($request);
         }
         //  return redirect(‘/’);

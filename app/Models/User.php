@@ -60,4 +60,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function dokterPoli()
+    {
+        return $this->hasOne(Dokterpoli::class,'dokter_id');
+    }
+    public function tempat_lahir_()
+    {
+        return $this->belongsTo(KotaKabupaten::class,'tempat_lahir');
+    }
+    public function jadwal_dokter()
+    {
+        return $this->hasMany(Jadwal_Dokter::class,'dokter_id');
+    }
 }

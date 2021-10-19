@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\administrasi;
+namespace App\Http\Controllers\administrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateJadwalDokter;
@@ -20,13 +20,18 @@ class JadwalDokterController extends Controller
      */
     public function index()
     {
-        $data = Jadwal_Dokter::join('users', 'jadwal_dokter.dokter_id', '=', 'users.id')
-            ->join('poliklinik', 'jadwal_dokter.poli', '=', 'poliklinik.id')
+        $data = Jadwal_Dokter::with(['dokter' => function ($query) {
+                $query->select('id','name');
+            },'poliklinik' => function ($query) {
+                $query->select('id','name');
+            }])
+            // join('users', 'jadwal_dokter.dokter_id', '=', 'users.id')
+            // ->join('poliklinik', 'jadwal_dokter.poli', '=', 'poliklinik.id')
             ->get([
                 'jadwal_dokter.id as id',
                 'jadwal_dokter.hari as hari',
-                'users.name as name',
-                'poliklinik.name as poli',
+                'jadwal_dokter.dokter_id as dokter_id',
+                'jadwal_dokter.poli as poli',
                 'jadwal_dokter.jam_mulai as jam_mulai',
                 'jadwal_dokter.jam_akhir as jam_akhir',
             ]);
@@ -127,6 +132,8 @@ class JadwalDokterController extends Controller
             'jam_mulai' => $request->jam_mulai,
             'jam_akhir' => $request->jam_akhir,
         ]);
+        $user->dokter;
+        $user->poliklinik;
         return response()->json([
             'type' => 'success',
             'message' => 'Regidtered.',
@@ -154,13 +161,18 @@ class JadwalDokterController extends Controller
     public function edit($id)
     {
         $jadwal = Jadwal_Dokter::where('jadwal_dokter.id', $id)
-            ->join('users', 'jadwal_dokter.dokter_id', '=', 'users.id')
-            ->join('poliklinik', 'jadwal_dokter.poli', '=', 'poliklinik.id')
+            // ->join('users', 'jadwal_dokter.dokter_id', '=', 'users.id')
+            // ->join('poliklinik', 'jadwal_dokter.poli', '=', 'poliklinik.id')
+            ->with(['dokter' => function ($query) {
+                $query->select('id','name');
+            },'poliklinik' => function ($query) {
+                $query->select('id','name');
+            }])
             ->firstOrFail([
                 'jadwal_dokter.id as id',
                 'jadwal_dokter.hari as hari',
-                'users.name as name',
-                'poliklinik.name as poli',
+                'jadwal_dokter.dokter_id as dokter_id',
+                'jadwal_dokter.poli as poli',
                 'jadwal_dokter.jam_mulai as jam_mulai',
                 'jadwal_dokter.jam_akhir as jam_akhir',
                 'jadwal_dokter.poli as idpoli',
@@ -248,7 +260,8 @@ class JadwalDokterController extends Controller
                 ->where(['hari' => $data->hari, 'poli' => $data->poli])
                 ->exists()
             ) {
-                if (Jadwal_Dokter::where(['hari' => $data->hari, 'poli' => $data->poli])
+                if (
+                    Jadwal_Dokter::where(['hari' => $data->hari, 'poli' => $data->poli])
                     ->whereBetween('jam_mulai', [$request->jam_mulai, date('H:i', strtotime($request->jam_akhir) - 60)])
                     ->orWhereBetween('jam_akhir', [date('H:i', strtotime($request->jam_mulai) + 60), $request->jam_akhir])
                     ->where(['hari' => $data->hari, 'poli' => $data->poli])
@@ -262,6 +275,8 @@ class JadwalDokterController extends Controller
                     $data->jam_mulai = $request->jam_mulai;
                     $data->jam_akhir = $request->jam_akhir;
                     $data->update();
+                    $data->dokter;
+                    $data->poliklinik;
                     return response()->json([
                         'type' => 'success',
                         'message' => 'Updated.',
@@ -282,6 +297,8 @@ class JadwalDokterController extends Controller
         $data->jam_mulai = $request->jam_mulai;
         $data->jam_akhir = $request->jam_akhir;
         $data->update();
+        $data->dokter;
+        $data->poliklinik;
         return response()->json([
             'type' => 'success',
             'message' => 'Updated.',
