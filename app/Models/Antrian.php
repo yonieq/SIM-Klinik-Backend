@@ -8,23 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Antrian extends Model
 {
   use HasFactory;
-  protected $table = "antrian";
-  protected $with = ['status_pasien'];
-  protected $fillable = [
-    'no_antri',
-    'nik',
-    'tgl_periksa',
-    'dokter',
-    'jam',
-    'jadwal_id',
-    'status'
-  ];
-  public function status_()
+  protected $table = "antrian";  
+  public function status()
   {
     return $this->belongsTo(Status_pasien::class, 'status');
   }
+  public function poliklinik()
+  {
+    return $this->belongsTo(Poliklinik::class, 'poliklinik');
+  }
+  public function dokter()
+  {
+    return $this->belongsTo(Dokter::class, 'dokter');
+  }
   public function pasien()
   {
-    return $this->belongsTo(Pasien::class, 'nik');
+    return $this->belongsTo(Pasien::class, 'pasien');
   }
 }

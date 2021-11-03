@@ -15,7 +15,7 @@ class JenisObat extends Migration
     {
         Schema::create('jenis_obat', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nama');
             $table->timestamps();
         });
     }

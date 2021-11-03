@@ -13,21 +13,20 @@ class CreatePasiensTable extends Migration
      */
     public function up()
     {
-        Schema::create('pasiens', function (Blueprint $table) {
+        Schema::create('pasien', function (Blueprint $table) {
             $table->id();
+            $table->string('no_kartu')->nullable();
             $table->string('nama');
             $table->string('nik')->unique();
             $table->foreignId('tempat_lahir')->references('id')->on('kota_kabupaten');
             $table->date('tanggal_lahir');
-            $table->enum('jenis_kelamin',['laki-laki','perempuan']);
+            $table->enum('jenis_kelamin',['L','P']);
             $table->string('alamat');
-            $table->enum('agama',['islam','kristen','katholik','hindu','budha','konghucu']);
-            $table->string('no_telepon')->unique();
+            $table->enum('agama',['Islam','Kristen','Katholik','Hindu','Budha','Konghucu']);
+            $table->string('no_telepon')->nullable();
             $table->integer('usia');
-            $table->string('gol_darah');
-            $table->foreignId('asuransi')->references('id')->on('jenis_asuransis');
-            $table->string('no_asuransi')->unique();
-            $table->string('pekerjaan');
+            $table->enum('gol_darah',['A','B','AB','O','Belum Diketahui']);
+            $table->string('pekerjaan')->nullable();
             $table->timestamps();
         });
     }

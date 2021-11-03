@@ -32,5 +32,23 @@ class DokterSeeder extends Seeder
             'masa_str'=>'2024-10-15',
             'lembaga_regist_sip'=>'Ikatan Dokter Indonesia'
         ]);
+        Dokter::create([
+            'foto'=>'',
+            'nik'=>'1234567890121111',
+            'nama'=>'dr. Johan Edison S.teh',
+            'tempat_lahir'=>'10',
+            'tanggal_lahir'=>'1990-10-17',
+            'jenis_kelamin'=>'laki-laki',
+            'agama'=>'katholik',
+            'gol_dar'=>'ab',
+            'alamat'=>'bandung, cinere, cileungsi',
+            'poliklinik'=>'2',
+            'no_hp'=>'6285633582227',
+            'no_sip'=>'43247334535799',
+            'no_str'=>'15493330646528',
+            'masa_sip'=>'2024-10-15',
+            'masa_str'=>'2024-10-15',
+            'lembaga_regist_sip'=>'Ikatan Dokter Indonesia'
+        ]);
     }
 }

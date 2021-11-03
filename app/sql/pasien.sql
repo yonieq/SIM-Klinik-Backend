@@ -48,9 +48,22 @@
 -- Dumping data for table `pasien`
 --
 
-INSERT INTO `pasien` (`id`, `name`, `no_ktp`, `kategori`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `alamat`, `no_hp`, `usia`, `gol_darah`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Bodr', '1234567890123456', 2, 28, '1989-04-09', 'laki-laki', 'Tegal Kota, Tegal Barat', '62890000999098', 21, 'Belum Diketahui', NULL, '2021-09-13 21:51:45', '2021-09-13 23:02:00'),
-(2, 'Budi', '1234567890123459', 2, 28, '1989-04-09', 'laki-laki', 'Tegal Kota, Tegal Barat', '6289000667676', 21, 'Belum Diketahui', NULL, '2021-09-13 23:03:07', '2021-09-13 23:03:07');
+INSERT INTO `pasien` (
+    `id`,
+    `nama`,
+    `nik`,
+    `tempat_lahir`,
+    `tanggal_lahir`,
+    `jenis_kelamin`,
+    `alamat`,
+    `no_telepon`,
+    `usia`,
+    `gol_darah`,
+    `created_at`, 
+    `updated_at`)
+VALUES
+(1, 'Bambang', '1234567890123456', 28, '1989-04-09', 'laki-laki', 'Tegal Kota, Tegal Barat', '62890000999098', 21, 'belum diketahui', NULL, '2021-09-13 21:51:45', '2021-09-13 23:02:00'),
+(2, 'Budi', '1234567890123459',  28, '1989-04-09', 'laki-laki', 'Tegal Kota, Tegal Barat', '6289000667676', 21, 'belum diketahui', NULL, '2021-09-13 23:03:07', '2021-09-13 23:03:07');
 
 --
 -- Indexes for dumped tables

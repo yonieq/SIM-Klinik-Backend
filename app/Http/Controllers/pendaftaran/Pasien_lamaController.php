@@ -5,11 +5,11 @@ namespace App\Http\Controllers\pendaftaran;
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
 use App\Models\Pasien;
+use App\Models\Poliklinik;
 use App\Models\Status_pasien;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class Pasien_lamaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,26 +18,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data['total_pasien'] = Pasien::count();
-        $data['hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->count();
-        $data['batal_hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->where('status',"Batal")->count();
-        $data['antrian'] = Antrian::with([
-            'pasien' => function ($query) {
-                $query->select('id', 'nama','alamat','jenis_kelamin','usia');
-            },
-            'poliklinik' => function ($query) {
-                $query->select('id', 'nama');
-            },
-            'status' => function ($query) {
-                $query->select('id', 'status');
-            }
-        ])->whereDate('tgl_periksa', Carbon::now())
-            ->get([
-                'antrian.id as id',
-                'antrian.pasien as pasien',
-                'antrian.status as status',
-                'antrian.poliklinik as poliklinik',
-            ]);
+        $data['pasien'] = Pasien::get(['id', 'no_kartu','nik','nama']);
+        $data['poliklinik'] = Poliklinik::get(['id', 'nama']);
         return response()->json([
             'type' => 'success',
             'message' => 'Geted.',
@@ -63,7 +45,22 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $status = new Status_pasien();
+        $status->status = "Antri";
+        $status->tanggal = $request->tanggal_periksa;
+        $status->pasien = $request->pasien;
+        $status->save();
+        $antrian = new Antrian();
+        $antrian->tgl_periksa = $request->tanggal_periksa;
+        $antrian->dokter = $request->dokter;
+        $antrian->pasien = $request->pasien;
+        $antrian->poliklinik = $request->poliklinik;
+        $status->antrian()->save($antrian);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Created.',
+            'data' => $antrian
+        ]);
     }
 
     /**
@@ -108,19 +105,6 @@ class DashboardController extends Controller
      */
     public function destroy($id)
     {
-        $antrian = Status_pasien::findOrFail($id);
-        $data= $antrian->antrian;
-        if ($antrian->status != "Antri") {
-            return response()->json([
-                'type' => 'failed',
-                'message' => 'Tidak Dapat Menghapus.',
-            ]);
-        }
-        $antrian->delete();
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Deleted.',
-            'data' => $data
-        ]);
+        //
     }
 }

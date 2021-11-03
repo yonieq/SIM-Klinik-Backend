@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jenis_obat extends Model
+class Jenis_layanan extends Model
 {
     use HasFactory;
-    protected $table = 'jenis_obat';
-   
+    public function pasien()
+    {
+        return $this->hasMany(Layanan_pasien::class,'layanan');
+    }
 }

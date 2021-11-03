@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\pendaftaran;
+namespace App\Http\Controllers\dokter;
 
 use App\Http\Controllers\Controller;
-use App\Models\Antrian;
-use App\Models\Pasien;
-use App\Models\Status_pasien;
+use App\Models\Rekam_medik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class Report_pemeriksaanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,25 +16,36 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data['total_pasien'] = Pasien::count();
-        $data['hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->count();
-        $data['batal_hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->where('status',"Batal")->count();
-        $data['antrian'] = Antrian::with([
+        $data = Rekam_medik::with([
             'pasien' => function ($query) {
-                $query->select('id', 'nama','alamat','jenis_kelamin','usia');
+                $query->select('id', 'nama', 'alamat');
             },
-            'poliklinik' => function ($query) {
+            'rm_tindakan' => function ($query) {
+                $query->select('id', 'rekam_medik','tindakan');
+            },
+            'rm_tindakan.tindakan' => function ($query) {
                 $query->select('id', 'nama');
             },
-            'status' => function ($query) {
-                $query->select('id', 'status');
+            'rm_obat' => function ($query) {
+                $query->select('id','rekam_medik', 'obat');
+            },
+            'rm_obat.obat' => function ($query) {
+                $query->select('id', 'nama');
+            },
+        ])->whereHas(
+            'status',
+            function ($query) {
+                // $query->select('id', 'status');
+                $query->where('status', "!=", 'Antri')
+                    ->where('status', "!=", 'Batal');
             }
-        ])->whereDate('tgl_periksa', Carbon::now())
+        )
+            // ->where('dokter',auth()->user())
+            ->where('dokter', 2)
             ->get([
-                'antrian.id as id',
-                'antrian.pasien as pasien',
-                'antrian.status as status',
-                'antrian.poliklinik as poliklinik',
+                'id',
+                'keluhan',
+                'pasien',
             ]);
         return response()->json([
             'type' => 'success',
@@ -108,19 +117,6 @@ class DashboardController extends Controller
      */
     public function destroy($id)
     {
-        $antrian = Status_pasien::findOrFail($id);
-        $data= $antrian->antrian;
-        if ($antrian->status != "Antri") {
-            return response()->json([
-                'type' => 'failed',
-                'message' => 'Tidak Dapat Menghapus.',
-            ]);
-        }
-        $antrian->delete();
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Deleted.',
-            'data' => $data
-        ]);
+        //
     }
 }

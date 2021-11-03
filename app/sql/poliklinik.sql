@@ -38,10 +38,10 @@
 -- Dumping data for table `poliklinik`
 --
 
-INSERT INTO `poliklinik` (`id`, `nama`,`kode`, `created_at`, `updated_at`) VALUES
-(1, 'Poli Mata','P.Mata', '2021-09-14 01:04:04', '2021-09-14 01:04:04'),
-(2, 'Poli THT','P.THT', '2021-09-14 01:04:15', '2021-09-14 01:04:15'),
-(4, 'Poli Gigi dan Mulut','P.GdM', '2021-09-14 01:08:58', '2021-09-14 01:08:58');
+INSERT INTO `poliklinik` (`id`, `nama`, `created_at`, `updated_at`) VALUES
+(1, 'Poli Mata', '2021-09-14 01:04:04', '2021-09-14 01:04:04'),
+(2, 'Poli THT', '2021-09-14 01:04:15', '2021-09-14 01:04:15'),
+(4, 'Poli Gigi dan Mulut', '2021-09-14 01:08:58', '2021-09-14 01:08:58');
 
 --
 -- Indexes for dumped tables

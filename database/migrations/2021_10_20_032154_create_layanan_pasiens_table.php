@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePolikliniksTable extends Migration
+class CreateLayananPasiensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreatePolikliniksTable extends Migration
      */
     public function up()
     {
-        Schema::create('poliklinik', function (Blueprint $table) {
+        Schema::create('layanan_pasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('pasien')->references('id')->on('pasien');
+            $table->foreignId('layanan')->references('id')->on('jenis_layanans');
+            $table->string('no_layanan')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreatePolikliniksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('polikliniks');
+        Schema::dropIfExists('layanan_pasiens');
     }
 }

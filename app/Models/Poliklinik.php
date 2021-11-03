@@ -11,14 +11,10 @@ class Poliklinik extends Model
     use HasFactory;
     protected $table = 'poliklinik';
     protected $fillable =[
-        'nama','kode'
+        'nama'
     ];
-    public function dokterPoli()
-    {
-        return $this->hasMany(Dokterpoli::class, 'poli_id');
-    }
     public function jadwal_dokter()
     {
-        return $this->hasMany(Jadwal_Dokter::class, 'poli');
+        return $this->hasMany(Jadwal_Dokter::class, 'poliklinik');
     }
 }

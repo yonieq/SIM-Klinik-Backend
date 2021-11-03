@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\pendaftaran;
+namespace App\Http\Controllers\apotek;
 
 use App\Http\Controllers\Controller;
-use App\Models\Antrian;
-use App\Models\Pasien;
-use App\Models\Status_pasien;
-use Carbon\Carbon;
+use App\Models\Transaksi_pasien;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class Penebusan_obatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,25 +15,26 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data['total_pasien'] = Pasien::count();
-        $data['hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->count();
-        $data['batal_hari_ini'] = Status_pasien::whereDate('tanggal', Carbon::now())->where('status',"Batal")->count();
-        $data['antrian'] = Antrian::with([
+        $data['antrian'] = Transaksi_pasien::with([
             'pasien' => function ($query) {
-                $query->select('id', 'nama','alamat','jenis_kelamin','usia');
+                $query->select('id', 'nama', 'alamat');
             },
-            'poliklinik' => function ($query) {
+            'dokter' => function ($query) {
                 $query->select('id', 'nama');
             },
-            'status' => function ($query) {
-                $query->select('id', 'status');
-            }
-        ])->whereDate('tgl_periksa', Carbon::now())
+        ])
+        // ->whereHas(
+        //     'status',
+        //     function ($query) {
+        //         // $query->select('id', 'status');
+        //         $query->where('status', "=", 'Antri Obat');
+        //     }
+        // )
+        ->where('tebus_obat','tebus')
             ->get([
-                'antrian.id as id',
-                'antrian.pasien as pasien',
-                'antrian.status as status',
-                'antrian.poliklinik as poliklinik',
+                'id',
+                'tanggal_periksa',
+                'tebus_obat',
             ]);
         return response()->json([
             'type' => 'success',
@@ -108,19 +106,6 @@ class DashboardController extends Controller
      */
     public function destroy($id)
     {
-        $antrian = Status_pasien::findOrFail($id);
-        $data= $antrian->antrian;
-        if ($antrian->status != "Antri") {
-            return response()->json([
-                'type' => 'failed',
-                'message' => 'Tidak Dapat Menghapus.',
-            ]);
-        }
-        $antrian->delete();
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Deleted.',
-            'data' => $data
-        ]);
+        //
     }
 }
